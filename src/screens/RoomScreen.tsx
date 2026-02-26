@@ -113,7 +113,7 @@ export function RoomScreen({ roomId }: Props) {
   return (
     <>
       <AppShell title={room.title} onBack={() => setScreen('museum')}>
-        <div style={{ padding: '16px 20px', maxWidth: '960px', margin: '0 auto', width: '100%' }}>
+        <div style={{ padding: '16px 20px', maxWidth: '960px', margin: '0 auto', width: '100%', paddingBottom: '180px' }}>
           <div style={{ marginBottom: '12px' }}>
             <div style={{ fontSize: '13px', color: '#718096', marginBottom: '6px' }}>{room.subtitle}</div>
             <RoomProgressBar
@@ -133,10 +133,6 @@ export function RoomScreen({ roomId }: Props) {
           )}
 
           <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd}>
-            <div style={{ marginBottom: '16px' }}>
-              <LabelPool terms={terms} placedIds={placedIds} />
-            </div>
-
             <ExhibitWrapper description={room.exhibitDescription}>
               <ExhibitComponent {...exhibitProps} />
             </ExhibitWrapper>
@@ -144,6 +140,23 @@ export function RoomScreen({ roomId }: Props) {
             <DragOverlay>
               {activeTerm ? <DragOverlayLabel displayTerm={activeTerm.displayTerm} /> : null}
             </DragOverlay>
+
+            {/* Fixed label tray pinned to the bottom of the viewport */}
+            <div style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 200,
+              background: '#FAF3E0',
+              borderTop: '2px solid #C9A84C',
+              boxShadow: '0 -4px 16px rgba(0,0,0,0.15)',
+              padding: '10px 20px 14px',
+            }}>
+              <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+                <LabelPool terms={terms} placedIds={placedIds} />
+              </div>
+            </div>
           </DndContext>
         </div>
       </AppShell>
