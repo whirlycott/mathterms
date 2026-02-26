@@ -123,15 +123,6 @@ export function RoomScreen({ roomId }: Props) {
             />
           </div>
 
-          {hintTerm && (
-            <div style={{
-              background: '#FFF5F5', border: '1px solid #FC8181', borderRadius: '8px',
-              padding: '10px 14px', marginBottom: '12px', fontSize: '13px', color: '#742A2A',
-            }}>
-              <strong>{hintTerm.displayTerm}:</strong> {hintTerm.definition}
-            </div>
-          )}
-
           <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd}>
             <ExhibitWrapper description={room.exhibitDescription}>
               <ExhibitComponent {...exhibitProps} />
@@ -154,6 +145,14 @@ export function RoomScreen({ roomId }: Props) {
               padding: '10px 20px 14px',
             }}>
               <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+                {hintTerm && (
+                  <div style={{
+                    background: '#FFF5F5', border: '1px solid #FC8181', borderRadius: '8px',
+                    padding: '10px 14px', marginBottom: '10px', fontSize: '13px', color: '#742A2A',
+                  }}>
+                    <strong>{hintTerm.displayTerm}:</strong> {hintTerm.definition}
+                  </div>
+                )}
                 <LabelPool terms={terms} placedIds={placedIds} />
               </div>
             </div>
