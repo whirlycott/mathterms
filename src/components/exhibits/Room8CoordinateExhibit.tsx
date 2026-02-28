@@ -1,5 +1,7 @@
+import { useMemo } from 'react'
 import { ExhibitProps } from '../../types'
 import { InlineSlot } from '../dnd/InlineSlot'
+import { shuffleArray } from '../../utils/shuffle'
 
 export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot, accentColor }: ExhibitProps) {
   const S = (id: string) => (
@@ -12,66 +14,45 @@ export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot,
     />
   )
 
-  return (
-    <div style={{ padding: '16px', background: '#FAF3E0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+  // Shuffle order computed once per mount
+  const conceptOrder = useMemo(() => shuffleArray(['coordinate-plane', 'axis', 'coordinates', 'coordinate-system']), [])
+  const bottomOrder = useMemo(() => shuffleArray(['corresponding-terms', 'base-solid', 'base-exponent']), [])
 
-      {/* Coordinate plane concepts */}
-      <div style={{ background: '#EEF0FA', border: '2px solid #553C9A', borderRadius: '10px', padding: '16px' }}>
-        <div style={{ fontSize: '11px', fontWeight: 700, color: '#553C9A', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>The Coordinate Grid</div>
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-
-          {/* Mini coordinate plane diagram */}
-          <div style={{ position: 'relative', width: '180px', height: '180px', background: '#fff', border: '2px solid #553C9A', borderRadius: '8px', flexShrink: 0 }}>
-            {/* Grid lines */}
-            {[0,1,2,3,4].map(i => (
-              <div key={`v${i}`} style={{ position: 'absolute', left: `${i*25}%`, top: 0, bottom: 0, width: '1px', background: '#E9D8FD' }} />
-            ))}
-            {[0,1,2,3,4].map(i => (
-              <div key={`h${i}`} style={{ position: 'absolute', top: `${i*25}%`, left: 0, right: 0, height: '1px', background: '#E9D8FD' }} />
-            ))}
-            {/* Axes */}
-            <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '2px', background: '#553C9A' }} />
-            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', background: '#553C9A' }} />
-            {/* Labels */}
-            <div style={{ position: 'absolute', right: '2px', top: '47%', fontSize: '12px', fontWeight: 'bold', color: '#553C9A' }}>x</div>
-            <div style={{ position: 'absolute', left: '48%', top: '2px', fontSize: '12px', fontWeight: 'bold', color: '#553C9A' }}>y</div>
-            {/* Point */}
-            <div style={{ position: 'absolute', left: '72%', top: '26%', width: '10px', height: '10px', borderRadius: '50%', background: '#E53E3E', transform: 'translate(-50%,-50%)' }} />
-            <div style={{ position: 'absolute', left: '74%', top: '20%', fontSize: '10px', fontWeight: 'bold', color: '#E53E3E' }}>(3,4)</div>
-          </div>
-
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
-
-            <div style={{ background: '#F8F4FF', border: '1px solid #D6BCFA', borderRadius: '8px', padding: '10px' }}>
-              <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '6px' }}>The flat surface formed by horizontal and vertical number lines intersecting at right angles:</div>
-              {S('coordinate-plane')}
-            </div>
-
-            <div style={{ background: '#F8F4FF', border: '1px solid #D6BCFA', borderRadius: '8px', padding: '10px' }}>
-              <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '4px' }}>The horizontal (x) and vertical (y) number lines on the grid:</div>
-              {S('axis')}
-            </div>
-
-            <div style={{ background: '#FFF5F5', border: '1px solid #FEB2B2', borderRadius: '8px', padding: '10px' }}>
-              <div style={{ fontSize: '13px', fontFamily: 'monospace', fontWeight: 'bold', color: '#E53E3E', marginBottom: '4px' }}>(3, 4)</div>
-              <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '6px' }}>A pair of numbers that give the exact location of a point on the grid:</div>
-              {S('coordinates')}
-            </div>
-
-            <div style={{ background: '#F8F4FF', border: '1px solid #D6BCFA', borderRadius: '8px', padding: '10px' }}>
-              <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '6px' }}>The overall method of locating points using intersecting number lines:</div>
-              {S('coordinate-system')}
-            </div>
-
-          </div>
+  const renderConcept = (id: string) => {
+    switch (id) {
+      case 'coordinate-plane': return (
+        <div key="coordinate-plane" style={{ background: '#F8F4FF', border: '1px solid #D6BCFA', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '6px' }}>The flat surface formed by horizontal and vertical number lines intersecting at right angles:</div>
+          {S('coordinate-plane')}
         </div>
-      </div>
+      )
+      case 'axis': return (
+        <div key="axis" style={{ background: '#F8F4FF', border: '1px solid #D6BCFA', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '4px' }}>The horizontal (x) and vertical (y) number lines on the grid:</div>
+          {S('axis')}
+        </div>
+      )
+      case 'coordinates': return (
+        <div key="coordinates" style={{ background: '#FFF5F5', border: '1px solid #FEB2B2', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontSize: '13px', fontFamily: 'monospace', fontWeight: 'bold', color: '#E53E3E', marginBottom: '4px' }}>(3, 4)</div>
+          <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '6px' }}>A pair of numbers that give the exact location of a point on the grid:</div>
+          {S('coordinates')}
+        </div>
+      )
+      case 'coordinate-system': return (
+        <div key="coordinate-system" style={{ background: '#F8F4FF', border: '1px solid #D6BCFA', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '6px' }}>The overall method of locating points using intersecting number lines:</div>
+          {S('coordinate-system')}
+        </div>
+      )
+      default: return null
+    }
+  }
 
-      {/* Bottom row */}
-      <div style={{ display: 'flex', gap: '10px' }}>
-
-        {/* Corresponding terms */}
-        <div style={{ background: '#F0FFF4', border: '2px solid #38A169', borderRadius: '10px', padding: '14px', flex: 2 }}>
+  const renderBottom = (id: string) => {
+    switch (id) {
+      case 'corresponding-terms': return (
+        <div key="corresponding-terms" style={{ background: '#F0FFF4', border: '2px solid #38A169', borderRadius: '10px', padding: '14px', flex: 2 }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#38A169', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Two Sequences</div>
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '10px' }}>
             <div style={{ textAlign: 'center' }}>
@@ -92,9 +73,9 @@ export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot,
           <div style={{ fontSize: '12px', color: '#718096', marginBottom: '6px' }}>Terms that are in the same position in two sequences:</div>
           {S('corresponding-terms')}
         </div>
-
-        {/* Base of solid figure */}
-        <div style={{ background: '#EEF0FA', border: '2px solid #805AD5', borderRadius: '10px', padding: '14px', flex: 1, textAlign: 'center' }}>
+      )
+      case 'base-solid': return (
+        <div key="base-solid" style={{ background: '#EEF0FA', border: '2px solid #805AD5', borderRadius: '10px', padding: '14px', flex: 1, textAlign: 'center' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#805AD5', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>A 3D Shape</div>
           <svg width="80" height="70" viewBox="0 0 80 70" style={{ marginBottom: '6px' }}>
             <rect x="10" y="25" width="45" height="35" rx="2" fill="#D6BCFA" stroke="#805AD5" strokeWidth="1.5"/>
@@ -107,9 +88,9 @@ export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot,
           <div style={{ fontSize: '12px', color: '#718096', marginBottom: '6px' }}>This face:</div>
           {S('base-of-a-solid-figure')}
         </div>
-
-        {/* Base of exponent */}
-        <div style={{ background: '#FFF5E6', border: '2px solid #DD6B20', borderRadius: '10px', padding: '14px', flex: 1, textAlign: 'center' }}>
+      )
+      case 'base-exponent': return (
+        <div key="base-exponent" style={{ background: '#FFF5E6', border: '2px solid #DD6B20', borderRadius: '10px', padding: '14px', flex: 1, textAlign: 'center' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#DD6B20', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>A Power Expression</div>
           <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#DD6B20', fontFamily: 'monospace', lineHeight: 1, marginBottom: '4px', position: 'relative', display: 'inline-block' }}>
             2<sup style={{ fontSize: '24px', color: '#4A5568' }}>3</sup>
@@ -118,8 +99,45 @@ export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot,
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>The number being raised to a power:</div>
           {S('base-of-an-exponent')}
         </div>
+      )
+      default: return null
+    }
+  }
 
+  return (
+    <div style={{ padding: '16px', background: '#FAF3E0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+
+      {/* Coordinate plane concepts — diagram is fixed, concept cards are shuffled */}
+      <div style={{ background: '#EEF0FA', border: '2px solid #553C9A', borderRadius: '10px', padding: '16px' }}>
+        <div style={{ fontSize: '11px', fontWeight: 700, color: '#553C9A', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>The Coordinate Grid</div>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+          {/* Mini coordinate plane diagram — fixed visual */}
+          <div style={{ position: 'relative', width: '180px', height: '180px', background: '#fff', border: '2px solid #553C9A', borderRadius: '8px', flexShrink: 0 }}>
+            {[0,1,2,3,4].map(i => (
+              <div key={`v${i}`} style={{ position: 'absolute', left: `${i*25}%`, top: 0, bottom: 0, width: '1px', background: '#E9D8FD' }} />
+            ))}
+            {[0,1,2,3,4].map(i => (
+              <div key={`h${i}`} style={{ position: 'absolute', top: `${i*25}%`, left: 0, right: 0, height: '1px', background: '#E9D8FD' }} />
+            ))}
+            <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '2px', background: '#553C9A' }} />
+            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', background: '#553C9A' }} />
+            <div style={{ position: 'absolute', right: '2px', top: '47%', fontSize: '12px', fontWeight: 'bold', color: '#553C9A' }}>x</div>
+            <div style={{ position: 'absolute', left: '48%', top: '2px', fontSize: '12px', fontWeight: 'bold', color: '#553C9A' }}>y</div>
+            <div style={{ position: 'absolute', left: '72%', top: '26%', width: '10px', height: '10px', borderRadius: '50%', background: '#E53E3E', transform: 'translate(-50%,-50%)' }} />
+            <div style={{ position: 'absolute', left: '74%', top: '20%', fontSize: '10px', fontWeight: 'bold', color: '#E53E3E' }}>(3,4)</div>
+          </div>
+          {/* Concept cards — shuffled */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {conceptOrder.map(renderConcept)}
+          </div>
+        </div>
       </div>
+
+      {/* Bottom row — shuffled */}
+      <div style={{ display: 'flex', gap: '10px' }}>
+        {bottomOrder.map(renderBottom)}
+      </div>
+
     </div>
   )
 }
