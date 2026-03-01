@@ -1,6 +1,12 @@
 import { ExhibitProps } from '../../types'
 import { InlineSlot } from '../dnd/InlineSlot'
 
+// Panel order is intentional for pedagogical reasons: the fraction bar panel
+// (introducing numerator and denominator) must appear first, before fraction
+// types (proper, improper, mixed), and well before equivalent fractions,
+// benchmark fractions, reciprocal, and simplification — all of which assume
+// the student already knows numerator and denominator.
+// Do not randomize — foundational vocabulary must precede dependent concepts.
 export function Room3FractionExhibit({ filledSlots, correctSlots, shakingSlot, accentColor }: ExhibitProps) {
   const S = (id: string) => (
     <InlineSlot
