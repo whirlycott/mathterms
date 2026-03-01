@@ -1,6 +1,10 @@
 import { ExhibitProps } from '../../types'
 import { InlineSlot } from '../dnd/InlineSlot'
 
+// Panel order is intentional for pedagogical reasons: the Long Division diagram
+// (which introduces dividend, divisor, and remainder) must appear before the
+// Algorithm panel, since the algorithm steps presuppose those terms.
+// Do not randomize — foundational vocabulary must precede dependent concepts.
 export function Room2DivisionExhibit({ filledSlots, correctSlots, shakingSlot, accentColor }: ExhibitProps) {
   const S = (id: string) => (
     <InlineSlot

@@ -1,6 +1,10 @@
 import { ExhibitProps } from '../../types'
 import { InlineSlot } from '../dnd/InlineSlot'
 
+// Panel order is intentional for pedagogical reasons: the four basic operations
+// (addition, subtraction, multiplication, division) appear first as the foundation,
+// followed by related concepts (factor, estimate, round), then comparisons.
+// Do not randomize — students need the foundational panels before dependent ones.
 export function Room1OperationsExhibit({ filledSlots, correctSlots, shakingSlot, accentColor }: ExhibitProps) {
   const S = (id: string) => (
     <InlineSlot
