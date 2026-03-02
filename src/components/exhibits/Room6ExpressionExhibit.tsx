@@ -1,8 +1,10 @@
 import React from 'react'
 import { ExhibitProps } from '../../types'
 import { InlineSlot } from '../dnd/InlineSlot'
+import { Room6Numbers } from '../../utils/exhibitNumbers'
 
-export function Room6ExpressionExhibit({ filledSlots, correctSlots, shakingSlot, accentColor }: ExhibitProps) {
+export function Room6ExpressionExhibit({ filledSlots, correctSlots, shakingSlot, accentColor, numbers }: ExhibitProps) {
+  const n = numbers as Room6Numbers | undefined
   const S = (id: string) => (
     <InlineSlot
       id={id}
@@ -46,11 +48,11 @@ export function Room6ExpressionExhibit({ filledSlots, correctSlots, shakingSlot,
           </div>
 
           <div style={{ background: '#E6FFFA', border: '2px solid #38A169', borderRadius: '8px', padding: '12px 16px', flex: 1, minWidth: '200px' }}>
-            <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#2D3748', fontFamily: 'monospace', marginBottom: '8px' }}>{'{ 3×[(4+2)÷3]−1 }'}</div>
+            <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#2D3748', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? `{ ${n.nestA}×[(${n.nestB}+${n.nestC})÷${n.nestD}]−${n.nestE} }` : '{ 3×[(4+2)÷3]−1 }'}</div>
             <div style={{ fontSize: '11px', color: '#4A5568', lineHeight: 1.6 }}>
-              1. Solve <strong style={{ color: '#3182CE' }}>(4+2)</strong> = 6<br />
-              2. Solve <strong style={{ color: '#DD6B20' }}>[6÷3]</strong> = 2<br />
-              3. Solve <strong style={{ color: '#E53E3E' }}>{'{'}</strong>3×2−1<strong style={{ color: '#E53E3E' }}>{'}'}</strong> = 5
+              1. Solve <strong style={{ color: '#3182CE' }}>({n?.nestB ?? 4}+{n?.nestC ?? 2})</strong> = {n?.nestInner ?? 6}<br />
+              2. Solve <strong style={{ color: '#DD6B20' }}>[{n?.nestInner ?? 6}÷{n?.nestD ?? 3}]</strong> = {n?.nestBracket ?? 2}<br />
+              3. Solve <strong style={{ color: '#E53E3E' }}>{'{'}</strong>{n?.nestA ?? 3}×{n?.nestBracket ?? 2}−{n?.nestE ?? 1}<strong style={{ color: '#E53E3E' }}>{'}'}</strong> = {n?.nestResult ?? 5}
             </div>
           </div>
 
@@ -62,7 +64,7 @@ export function Room6ExpressionExhibit({ filledSlots, correctSlots, shakingSlot,
 
         <div style={{ background: '#fff', border: '2px solid #805AD5', borderRadius: '10px', padding: '14px', flex: 1 }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#805AD5', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>No Equal Sign</div>
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#553C9A', fontFamily: 'monospace', marginBottom: '8px' }}>3 × (4 + 2)</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#553C9A', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? `${n.exprA} × (${n.exprB} + ${n.exprC})` : '3 × (4 + 2)'}</div>
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>A math phrase — operations without an = sign</div>
           <div style={label}>A math phrase with no equal sign:</div>
           {S('expression')}
@@ -70,7 +72,7 @@ export function Room6ExpressionExhibit({ filledSlots, correctSlots, shakingSlot,
 
         <div style={{ background: '#fff', border: '2px solid #38A169', borderRadius: '10px', padding: '14px', flex: 1 }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#38A169', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Has an Equal Sign</div>
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#276749', fontFamily: 'monospace', marginBottom: '8px' }}>3×(4+2) = 18</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#276749', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? `${n.exprA}×(${n.exprB}+${n.exprC}) = ${n.exprResult}` : '3×(4+2) = 18'}</div>
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>A number sentence — both sides balance</div>
           <div style={label}>A number sentence with an = sign:</div>
           {S('equation')}
@@ -78,7 +80,7 @@ export function Room6ExpressionExhibit({ filledSlots, correctSlots, shakingSlot,
 
         <div style={{ background: '#fff', border: '2px solid #3182CE', borderRadius: '10px', padding: '14px', flex: 1 }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#3182CE', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Finding the Value</div>
-          <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#2D3748', fontFamily: 'monospace', marginBottom: '8px' }}>3×(4+2) = <span style={{ color: '#3182CE' }}>18</span></div>
+          <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#2D3748', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? <>{n.exprA}×({n.exprB}+{n.exprC}) = <span style={{ color: '#3182CE' }}>{n.exprResult}</span></> : <>3×(4+2) = <span style={{ color: '#3182CE' }}>18</span></>}</div>
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>Substitute numbers → find the answer</div>
           <div style={label}>To find the value of an expression:</div>
           {S('evaluate')}
