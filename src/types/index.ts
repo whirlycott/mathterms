@@ -57,6 +57,7 @@ export interface ExhibitProps {
   correctSlots: string[]
   shakingSlot: string | null
   accentColor: string
+  numbers?: unknown  // Room-specific randomized exhibit numbers (typed per-component)
 }
 
 export interface GameState {

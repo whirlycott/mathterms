@@ -1,7 +1,14 @@
 import { ExhibitProps } from '../../types'
 import { InlineSlot } from '../dnd/InlineSlot'
+import { Room8Numbers } from '../../utils/exhibitNumbers'
 
-export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot, accentColor }: ExhibitProps) {
+export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot, accentColor, numbers }: ExhibitProps) {
+  const n = numbers as Room8Numbers | undefined
+  const px = n?.pointX ?? 3
+  const py = n?.pointY ?? 4
+  // Convert grid coordinates to percentage positions within the 5×5 grid (0-centered at 50%)
+  const pointLeftPct = `${50 + px * (50 / 5)}%`
+  const pointTopPct = `${50 - py * (50 / 5)}%`
   const S = (id: string) => (
     <InlineSlot
       id={id}
@@ -36,8 +43,8 @@ export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot,
             <div style={{ position: 'absolute', right: '2px', top: '47%', fontSize: '12px', fontWeight: 'bold', color: '#553C9A' }}>x</div>
             <div style={{ position: 'absolute', left: '48%', top: '2px', fontSize: '12px', fontWeight: 'bold', color: '#553C9A' }}>y</div>
             {/* Point */}
-            <div style={{ position: 'absolute', left: '72%', top: '26%', width: '10px', height: '10px', borderRadius: '50%', background: '#E53E3E', transform: 'translate(-50%,-50%)' }} />
-            <div style={{ position: 'absolute', left: '74%', top: '20%', fontSize: '10px', fontWeight: 'bold', color: '#E53E3E' }}>(3,4)</div>
+            <div style={{ position: 'absolute', left: pointLeftPct, top: pointTopPct, width: '10px', height: '10px', borderRadius: '50%', background: '#E53E3E', transform: 'translate(-50%,-50%)' }} />
+            <div style={{ position: 'absolute', left: pointLeftPct, top: pointTopPct, fontSize: '10px', fontWeight: 'bold', color: '#E53E3E', transform: 'translate(4px, -14px)' }}>({px},{py})</div>
           </div>
 
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -53,7 +60,7 @@ export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot,
             </div>
 
             <div style={{ background: '#FFF5F5', border: '1px solid #FEB2B2', borderRadius: '8px', padding: '10px' }}>
-              <div style={{ fontSize: '13px', fontFamily: 'monospace', fontWeight: 'bold', color: '#E53E3E', marginBottom: '4px' }}>(3, 4)</div>
+              <div style={{ fontSize: '13px', fontFamily: 'monospace', fontWeight: 'bold', color: '#E53E3E', marginBottom: '4px' }}>({px}, {py})</div>
               <div style={{ fontSize: '13px', color: '#4A5568', marginBottom: '6px' }}>A pair of numbers that give the exact location of a point on the grid:</div>
               {S('coordinates')}
             </div>
@@ -76,18 +83,18 @@ export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot,
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '10px' }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '11px', fontWeight: 700, color: '#276749', marginBottom: '4px' }}>Rule A</div>
-              {[2,4,6,8].map(n => (
-                <div key={n} style={{ background: '#C6F6D5', borderRadius: '4px', padding: '2px 12px', marginBottom: '2px', fontSize: '14px', fontWeight: 'bold', color: '#276749' }}>{n}</div>
+              {(n?.seqA ?? [2,4,6,8]).map((v, i) => (
+                <div key={i} style={{ background: '#C6F6D5', borderRadius: '4px', padding: '2px 12px', marginBottom: '2px', fontSize: '14px', fontWeight: 'bold', color: '#276749' }}>{v}</div>
               ))}
             </div>
             <div style={{ fontSize: '20px', color: '#4A5568' }}>↔</div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '11px', fontWeight: 700, color: '#C05621', marginBottom: '4px' }}>Rule B</div>
-              {[3,6,9,12].map(n => (
-                <div key={n} style={{ background: '#FEEBC8', borderRadius: '4px', padding: '2px 12px', marginBottom: '2px', fontSize: '14px', fontWeight: 'bold', color: '#C05621' }}>{n}</div>
+              {(n?.seqB ?? [3,6,9,12]).map((v, i) => (
+                <div key={i} style={{ background: '#FEEBC8', borderRadius: '4px', padding: '2px 12px', marginBottom: '2px', fontSize: '14px', fontWeight: 'bold', color: '#C05621' }}>{v}</div>
               ))}
             </div>
-            <div style={{ fontSize: '12px', color: '#4A5568' }}>2↔3, 4↔6 are terms<br />in the <strong>same position</strong></div>
+            <div style={{ fontSize: '12px', color: '#4A5568' }}>{n ? `${n.seqA[0]}↔${n.seqB[0]}, ${n.seqA[1]}↔${n.seqB[1]}` : '2↔3, 4↔6'} are terms<br />in the <strong>same position</strong></div>
           </div>
           <div style={{ fontSize: '12px', color: '#718096', marginBottom: '6px' }}>Terms that are in the same position in two sequences:</div>
           {S('corresponding-terms')}
@@ -112,9 +119,9 @@ export function Room8CoordinateExhibit({ filledSlots, correctSlots, shakingSlot,
         <div style={{ background: '#FFF5E6', border: '2px solid #DD6B20', borderRadius: '10px', padding: '14px', flex: 1, textAlign: 'center' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#DD6B20', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>A Power Expression</div>
           <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#DD6B20', fontFamily: 'monospace', lineHeight: 1, marginBottom: '4px', position: 'relative', display: 'inline-block' }}>
-            2<sup style={{ fontSize: '24px', color: '#4A5568' }}>3</sup>
+            {n?.expBase ?? 2}<sup style={{ fontSize: '24px', color: '#4A5568' }}>{n?.expPower ?? 3}</sup>
           </div>
-          <div style={{ fontSize: '11px', color: '#E53E3E', marginBottom: '8px' }}>↑ this number (2)</div>
+          <div style={{ fontSize: '11px', color: '#E53E3E', marginBottom: '8px' }}>↑ this number ({n?.expBase ?? 2})</div>
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>The number being raised to a power:</div>
           {S('base-of-an-exponent')}
         </div>

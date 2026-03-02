@@ -1,7 +1,9 @@
 import { ExhibitProps } from '../../types'
 import { InlineSlot } from '../dnd/InlineSlot'
+import { Room5Numbers } from '../../utils/exhibitNumbers'
 
-export function Room5PropertiesExhibit({ filledSlots, correctSlots, shakingSlot, accentColor }: ExhibitProps) {
+export function Room5PropertiesExhibit({ filledSlots, correctSlots, shakingSlot, accentColor, numbers }: ExhibitProps) {
+  const n = numbers as Room5Numbers | undefined
   const S = (id: string) => (
     <InlineSlot
       id={id}
@@ -26,7 +28,7 @@ export function Room5PropertiesExhibit({ filledSlots, correctSlots, shakingSlot,
 
         <div style={panel('#F3EEFF', '#805AD5')}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#805AD5', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Addition — Order</div>
-          <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#553C9A', fontFamily: 'monospace', marginBottom: '8px' }}>3 + 5 = 5 + 3</div>
+          <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#553C9A', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? `${n.commAddA} + ${n.commAddB} = ${n.commAddB} + ${n.commAddA}` : '3 + 5 = 5 + 3'}</div>
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>Swap the order of the addends → same sum<br /><em>a + b = b + a</em></div>
           <div style={label}>The rule that lets you swap the order when adding:</div>
           {S('commutative-property-of-addition')}
@@ -34,7 +36,7 @@ export function Room5PropertiesExhibit({ filledSlots, correctSlots, shakingSlot,
 
         <div style={panel('#F3EEFF', '#805AD5')}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#805AD5', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Multiplication — Order</div>
-          <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#553C9A', fontFamily: 'monospace', marginBottom: '8px' }}>4 × 6 = 6 × 4</div>
+          <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#553C9A', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? `${n.commMulA} × ${n.commMulB} = ${n.commMulB} × ${n.commMulA}` : '4 × 6 = 6 × 4'}</div>
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>Swap the order of the factors → same product<br /><em>a × b = b × a</em></div>
           <div style={label}>The rule that lets you swap the order when multiplying:</div>
           {S('commutative-property-of-multiplication')}
@@ -47,7 +49,7 @@ export function Room5PropertiesExhibit({ filledSlots, correctSlots, shakingSlot,
 
         <div style={panel('#EBF5FF', '#3182CE')}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#3182CE', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Addition — Grouping</div>
-          <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#2B6CB0', fontFamily: 'monospace', marginBottom: '8px' }}>(2+3)+4 = 2+(3+4)</div>
+          <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#2B6CB0', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? `(${n.assocA}+${n.assocB})+${n.assocC} = ${n.assocA}+(${n.assocB}+${n.assocC})` : '(2+3)+4 = 2+(3+4)'}</div>
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>Change how you group addends → same sum<br /><em>(a+b)+c = a+(b+c)</em></div>
           <div style={label}>The rule that lets you regroup when adding:</div>
           {S('associative-property-of-addition')}
@@ -55,7 +57,7 @@ export function Room5PropertiesExhibit({ filledSlots, correctSlots, shakingSlot,
 
         <div style={panel('#EBF5FF', '#3182CE')}>
           <div style={{ fontSize: '11px', fontWeight: 700, color: '#3182CE', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Multiplication — Grouping</div>
-          <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#2B6CB0', fontFamily: 'monospace', marginBottom: '8px' }}>(2×3)×4 = 2×(3×4)</div>
+          <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#2B6CB0', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? `(${n.assocA}×${n.assocB})×${n.assocC} = ${n.assocA}×(${n.assocB}×${n.assocC})` : '(2×3)×4 = 2×(3×4)'}</div>
           <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>Change how you group factors → same product<br /><em>(a×b)×c = a×(b×c)</em></div>
           <div style={label}>The rule that lets you regroup when multiplying:</div>
           {S('associative-property-of-multiplication')}
@@ -66,7 +68,7 @@ export function Room5PropertiesExhibit({ filledSlots, correctSlots, shakingSlot,
       {/* Row 3: Distributive */}
       <div style={panel('#FFF5E6', '#DD6B20')}>
         <div style={{ fontSize: '11px', fontWeight: 700, color: '#DD6B20', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Spreading Multiplication Over Addition</div>
-        <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#C05621', fontFamily: 'monospace', marginBottom: '8px' }}>3×(4+2) = 3×4 + 3×2 = 18</div>
+        <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#C05621', fontFamily: 'monospace', marginBottom: '8px' }}>{n ? `${n.distA}×(${n.distB}+${n.distC}) = ${n.distA}×${n.distB} + ${n.distA}×${n.distC} = ${n.distResult}` : '3×(4+2) = 3×4 + 3×2 = 18'}</div>
         <div style={{ fontSize: '12px', color: '#4A5568', marginBottom: '8px' }}>Multiply each addend separately, then add the products<br /><em>a×(b+c) = a×b + a×c</em></div>
         <div style={label}>The rule that lets you multiply across a sum:</div>
         {S('distributive-property')}
