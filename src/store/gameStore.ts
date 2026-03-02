@@ -124,7 +124,9 @@ export const useGameStore = create<Store>()(
       },
 
       setPlayerName: (name) => set({ playerName: name }),
-      setBadgeColor: (color) => set({ badgeColor: color }),
+      setBadgeColor: (color) => {
+        if (/^#[0-9A-Fa-f]{6}$/.test(color)) set({ badgeColor: color })
+      },
       setErrBotVisible: (v) => set({ errBotVisible: v }),
 
       resetProgress: () => set({

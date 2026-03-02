@@ -216,6 +216,17 @@ describe('setBadgeColor', () => {
     useGameStore.getState().setBadgeColor('#FF0000')
     expect(useGameStore.getState().badgeColor).toBe('#FF0000')
   })
+
+  it('accepts a valid 6-digit hex color', () => {
+    useGameStore.getState().setBadgeColor('#aB12cD')
+    expect(useGameStore.getState().badgeColor).toBe('#aB12cD')
+  })
+
+  it('rejects an arbitrary CSS value and leaves the color unchanged', () => {
+    const before = useGameStore.getState().badgeColor
+    useGameStore.getState().setBadgeColor('url(evil)')
+    expect(useGameStore.getState().badgeColor).toBe(before)
+  })
 })
 
 describe('setMuted', () => {
