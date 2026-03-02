@@ -1,4 +1,4 @@
-import { RoomDefinition } from '../../types'
+import { RoomDefinition, BonusQuestion as BonusQuestionType } from '../../types'
 import { BonusQuestion } from './BonusQuestion'
 import { useGameStore } from '../../store/gameStore'
 import { useConfetti } from '../../hooks/useConfetti'
@@ -6,10 +6,11 @@ import { useEffect } from 'react'
 
 interface Props {
   room: RoomDefinition
+  bonusQuestion?: BonusQuestionType
   onClose: () => void
 }
 
-export function CompletionModal({ room, onClose }: Props) {
+export function CompletionModal({ room, bonusQuestion, onClose }: Props) {
   const answerBonus = useGameStore(s => s.answerBonus)
   const bonusAnswered = useGameStore(s => s.rooms[room.id].bonusAnswered)
   const { burst } = useConfetti()
@@ -74,7 +75,7 @@ export function CompletionModal({ room, onClose }: Props) {
               Bonus Challenge
             </div>
             <BonusQuestion
-              question={room.bonusQuestion}
+              question={bonusQuestion ?? room.bonusQuestion}
               onAnswer={() => answerBonus(room.id)}
             />
           </div>

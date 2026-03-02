@@ -10,9 +10,11 @@ import { OnboardingOverlay } from '../components/ui/OnboardingOverlay'
 import { useGameStore } from '../store/gameStore'
 import { useRoomSession } from '../hooks/useRoomSession'
 import { useAudio } from '../hooks/useAudio'
+import { useExhibitNumbers } from '../hooks/useExhibitNumbers'
 import { getRoomById } from '../data/rooms'
 import { getTermsByRoom, getTermById } from '../data/terms'
-import { ExhibitProps, RoomId } from '../types'
+import { getBonusQuestionOverride } from '../utils/exhibitNumbers'
+import { ExhibitProps, RoomId, BonusQuestion } from '../types'
 
 import { Room1OperationsExhibit } from '../components/exhibits/Room1OperationsExhibit'
 import { Room2DivisionExhibit } from '../components/exhibits/Room2DivisionExhibit'
@@ -48,6 +50,13 @@ export function RoomScreen({ roomId }: Props) {
   const room = getRoomById(roomId)!
   const terms = getTermsByRoom(roomId)
   const ExhibitComponent = EXHIBIT_MAP[roomId]
+  const exhibitNumbers = useExhibitNumbers(roomId)
+
+  // Merge bonus question overrides for rooms whose bonus questions reference exhibit numbers
+  const bonusOverride = getBonusQuestionOverride(roomId, exhibitNumbers)
+  const bonusQuestion: BonusQuestion = bonusOverride
+    ? { ...room.bonusQuestion, ...bonusOverride }
+    : room.bonusQuestion
 
   const [activeTermId, setActiveTermId] = useState<string | null>(null)
   const [showCompletion, setShowCompletion] = useState(false)
@@ -108,6 +117,7 @@ export function RoomScreen({ roomId }: Props) {
     correctSlots: roomState.correctSlots,
     shakingSlot,
     accentColor: room.accentColor,
+    numbers: exhibitNumbers,
   }
 
   return (
@@ -161,7 +171,7 @@ export function RoomScreen({ roomId }: Props) {
       </AppShell>
 
       {showCompletion && (
-        <CompletionModal room={room} onClose={() => { setShowCompletion(false); setScreen('museum') }} />
+        <CompletionModal room={room} bonusQuestion={bonusQuestion} onClose={() => { setShowCompletion(false); setScreen('museum') }} />
       )}
 
       {showOnboarding && (
