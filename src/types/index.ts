@@ -29,6 +29,7 @@ export interface BonusQuestion {
   question: string
   options: string[]
   correctIndex: number
+  dynamic?: boolean
 }
 
 export interface RoomDefinition {
@@ -39,7 +40,7 @@ export interface RoomDefinition {
   unlockAfter: RoomId[]  // rooms that must be completed first
   termIds: string[]      // which terms belong here
   slots: SlotDefinition[]
-  bonusQuestion: BonusQuestion
+  bonusQuestions: BonusQuestion[]
   exhibitDescription: string
 }
 

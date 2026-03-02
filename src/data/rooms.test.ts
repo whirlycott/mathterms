@@ -26,21 +26,36 @@ describe('ROOMS', () => {
     }
   })
 
-  it('every room has a bonusQuestion with question, options, and correctIndex', () => {
+  it('every room has a non-empty bonusQuestions array with valid entries', () => {
     for (const room of ROOMS) {
-      expect(room.bonusQuestion).toBeDefined()
-      expect(room.bonusQuestion.question).toBeTruthy()
-      expect(Array.isArray(room.bonusQuestion.options)).toBe(true)
-      expect(room.bonusQuestion.options.length).toBeGreaterThan(0)
-      expect(typeof room.bonusQuestion.correctIndex).toBe('number')
+      expect(Array.isArray(room.bonusQuestions)).toBe(true)
+      expect(room.bonusQuestions.length).toBeGreaterThan(0)
+      for (const bq of room.bonusQuestions) {
+        expect(bq.question).toBeTruthy()
+        expect(Array.isArray(bq.options)).toBe(true)
+        expect(bq.options.length).toBeGreaterThan(0)
+        expect(typeof bq.correctIndex).toBe('number')
+      }
     }
   })
 
   it('every bonusQuestion correctIndex is within the options array bounds', () => {
     for (const room of ROOMS) {
-      const { correctIndex, options } = room.bonusQuestion
-      expect(correctIndex).toBeGreaterThanOrEqual(0)
-      expect(correctIndex).toBeLessThan(options.length)
+      for (const bq of room.bonusQuestions) {
+        expect(bq.correctIndex).toBeGreaterThanOrEqual(0)
+        expect(bq.correctIndex).toBeLessThan(bq.options.length)
+      }
+    }
+  })
+
+  it('dynamic bonus questions only exist on rooms with exhibit overrides', () => {
+    const dynamicRoomIds = new Set(['division', 'decimals', 'properties'])
+    for (const room of ROOMS) {
+      for (const bq of room.bonusQuestions) {
+        if (bq.dynamic) {
+          expect(dynamicRoomIds.has(room.id)).toBe(true)
+        }
+      }
     }
   })
 

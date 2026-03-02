@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors, DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import { AppShell } from '../components/layout/AppShell'
 import { ExhibitWrapper } from '../components/exhibits/ExhibitWrapper'
@@ -52,11 +52,26 @@ export function RoomScreen({ roomId }: Props) {
   const ExhibitComponent = EXHIBIT_MAP[roomId]
   const exhibitNumbers = useExhibitNumbers(roomId)
 
-  // Merge bonus question overrides for rooms whose bonus questions reference exhibit numbers
-  const bonusOverride = getBonusQuestionOverride(roomId, exhibitNumbers)
-  const bonusQuestion: BonusQuestion = bonusOverride
-    ? { ...room.bonusQuestion, ...bonusOverride }
-    : room.bonusQuestion
+  // Pick one bonus question per room visit using a seed derived from the exhibit numbers
+  const bonusQuestion: BonusQuestion = useMemo(() => {
+    const questions = room.bonusQuestions
+    // Use exhibitNumbers seed indirectly: hash the JSON to get a stable index per visit
+    const seedStr = JSON.stringify(exhibitNumbers)
+    let hash = 0
+    for (let i = 0; i < seedStr.length; i++) {
+      hash = ((hash << 5) - hash + seedStr.charCodeAt(i)) | 0
+    }
+    const index = ((hash % questions.length) + questions.length) % questions.length
+    const selected = questions[index]
+
+    if (selected.dynamic) {
+      const bonusOverride = getBonusQuestionOverride(roomId, exhibitNumbers)
+      if (bonusOverride) {
+        return { ...selected, ...bonusOverride }
+      }
+    }
+    return selected
+  }, [room.bonusQuestions, roomId, exhibitNumbers])
 
   const [activeTermId, setActiveTermId] = useState<string | null>(null)
   const [showCompletion, setShowCompletion] = useState(false)
