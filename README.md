@@ -34,3 +34,7 @@ npm run build     # production build → dist/
 ```
 
 Built with React 19, TypeScript, Vite, @dnd-kit, and Zustand.
+
+## License
+
+MIT License — see [LICENSE](LICENSE) for details.
