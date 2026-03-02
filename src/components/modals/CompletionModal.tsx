@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 interface Props {
   room: RoomDefinition
-  bonusQuestion?: BonusQuestionType
+  bonusQuestion: BonusQuestionType
   onClose: () => void
 }
 
@@ -75,7 +75,7 @@ export function CompletionModal({ room, bonusQuestion, onClose }: Props) {
               Bonus Challenge
             </div>
             <BonusQuestion
-              question={bonusQuestion ?? room.bonusQuestion}
+              question={bonusQuestion}
               onAnswer={() => answerBonus(room.id)}
             />
           </div>

@@ -21,11 +21,23 @@ export const ROOMS: RoomDefinition[] = [
       { id: 'greater-than',label: '?', top: '72%', left: '40%', width: '120px' },
       { id: 'inequality',  label: '?', top: '72%', left: '68%', width: '110px' },
     ],
-    bonusQuestion: {
-      question: 'What do you call the answer to an addition problem?',
-      options: ['Product', 'Sum', 'Quotient', 'Difference'],
-      correctIndex: 1,
-    },
+    bonusQuestions: [
+      {
+        question: 'What do you call the answer to an addition problem?',
+        options: ['Product', 'Sum', 'Quotient', 'Difference'],
+        correctIndex: 1,
+      },
+      {
+        question: 'What do you call the answer to a multiplication problem?',
+        options: ['Sum', 'Difference', 'Product', 'Quotient'],
+        correctIndex: 2,
+      },
+      {
+        question: 'What do you call one of the numbers being added together?',
+        options: ['Factor', 'Addend', 'Product', 'Quotient'],
+        correctIndex: 1,
+      },
+    ],
     exhibitDescription: 'Four calculation machines showing addition, subtraction, multiplication and division, plus a number line showing comparisons.',
   },
   {
@@ -46,11 +58,24 @@ export const ROOMS: RoomDefinition[] = [
       { id: 'decompose',   label: '?', top: '68%', left: '60%', width: '120px' },
       { id: 'compose',     label: '?', top: '68%', left: '80%', width: '110px' },
     ],
-    bonusQuestion: {
-      question: 'In 15 ÷ 3 = 5, what is the number 15 called?',
-      options: ['Divisor', 'Quotient', 'Dividend', 'Remainder'],
-      correctIndex: 2,
-    },
+    bonusQuestions: [
+      {
+        question: 'In 15 ÷ 3 = 5, what is the number 15 called?',
+        options: ['Divisor', 'Quotient', 'Dividend', 'Remainder'],
+        correctIndex: 2,
+        dynamic: true,
+      },
+      {
+        question: 'What is left over when a number does not divide evenly?',
+        options: ['Quotient', 'Dividend', 'Divisor', 'Remainder'],
+        correctIndex: 3,
+      },
+      {
+        question: 'What is a step-by-step procedure for solving a math problem called?',
+        options: ['Array', 'Algorithm', 'Decompose', 'Compose'],
+        correctIndex: 1,
+      },
+    ],
     exhibitDescription: 'A long division diagram showing dividend, divisor, quotient, and remainder, plus a subtraction diagram and inset boxes for algorithm, array, decompose, and compose.',
   },
   {
@@ -75,11 +100,23 @@ export const ROOMS: RoomDefinition[] = [
       { id: 'benchmark-fractions', label: '?', top: '44%', left: '68%', width: '160px' },
       { id: 'reciprocal',          label: '?', top: '44%', left: '85%', width: '110px' },
     ],
-    bonusQuestion: {
-      question: 'What is the top number in a fraction called?',
-      options: ['Denominator', 'Numerator', 'Whole number', 'Reciprocal'],
-      correctIndex: 1,
-    },
+    bonusQuestions: [
+      {
+        question: 'What is the top number in a fraction called?',
+        options: ['Denominator', 'Numerator', 'Whole number', 'Reciprocal'],
+        correctIndex: 1,
+      },
+      {
+        question: 'What is a fraction where the numerator is greater than the denominator called?',
+        options: ['Proper fraction', 'Mixed number', 'Improper fraction', 'Equivalent fraction'],
+        correctIndex: 2,
+      },
+      {
+        question: 'What do you call a number with a whole part and a fraction part, like 2 ¾?',
+        options: ['Improper fraction', 'Equivalent fraction', 'Reciprocal', 'Mixed number'],
+        correctIndex: 3,
+      },
+    ],
     exhibitDescription: 'A large fraction bar with numerator and denominator slots, example fractions, equivalence demonstration, and simplification chain.',
   },
   {
@@ -100,11 +137,24 @@ export const ROOMS: RoomDefinition[] = [
       { id: 'standard-form',  label: '?', top: '80%', left: '10%', width: '130px' },
       { id: 'expanded-form',  label: '?', top: '80%', left: '55%', width: '130px' },
     ],
-    bonusQuestion: {
-      question: 'In the number 0.347, which digit is in the hundredths place?',
-      options: ['3', '4', '7', '0'],
-      correctIndex: 1,
-    },
+    bonusQuestions: [
+      {
+        question: 'In the number 0.347, which digit is in the hundredths place?',
+        options: ['3', '4', '7', '0'],
+        correctIndex: 1,
+        dynamic: true,
+      },
+      {
+        question: 'What is the name of the dot that separates the whole number from the decimal part?',
+        options: ['Place value', 'Decimal point', 'Tenth', 'Standard form'],
+        correctIndex: 1,
+      },
+      {
+        question: 'Which place value is directly to the right of the decimal point?',
+        options: ['Hundredths', 'Thousandths', 'Ones', 'Tenths'],
+        correctIndex: 3,
+      },
+    ],
     exhibitDescription: 'A large decimal number 3.147 with arrows pointing to each part, a place value chart, and standard/expanded form boxes.',
   },
   {
@@ -121,11 +171,24 @@ export const ROOMS: RoomDefinition[] = [
       { id: 'associative-property-of-multiplication', label: '?', top: '52%', left: '52%', width: '230px' },
       { id: 'distributive-property',                  label: '?', top: '82%', left: '28%', width: '185px' },
     ],
-    bonusQuestion: {
-      question: 'Which property says 3 + 5 = 5 + 3?',
-      options: ['Distributive property', 'Associative Property of Addition', 'Commutative Property of Addition', 'Commutative Property of Multiplication'],
-      correctIndex: 2,
-    },
+    bonusQuestions: [
+      {
+        question: 'Which property says 3 + 5 = 5 + 3?',
+        options: ['Distributive property', 'Associative Property of Addition', 'Commutative Property of Addition', 'Commutative Property of Multiplication'],
+        correctIndex: 2,
+        dynamic: true,
+      },
+      {
+        question: 'Which property says (2 + 3) + 4 = 2 + (3 + 4)?',
+        options: ['Commutative Property of Addition', 'Distributive Property', 'Associative Property of Addition', 'Associative Property of Multiplication'],
+        correctIndex: 2,
+      },
+      {
+        question: 'Which property lets you rewrite 3 × (4 + 5) as 3 × 4 + 3 × 5?',
+        options: ['Commutative Property of Multiplication', 'Associative Property of Multiplication', 'Commutative Property of Addition', 'Distributive Property'],
+        correctIndex: 3,
+      },
+    ],
     exhibitDescription: 'Five panels showing equations that demonstrate each arithmetic property.',
   },
   {
@@ -144,11 +207,23 @@ export const ROOMS: RoomDefinition[] = [
       { id: 'evaluate',         label: '?', top: '50%', left: '72%', width: '110px' },
       { id: 'order-of-operation',label: '?', top: '80%', left: '28%', width: '165px' },
     ],
-    bonusQuestion: {
-      question: 'What is a mathematical phrase WITHOUT an equal sign called?',
-      options: ['Equation', 'Expression', 'Evaluate', 'Inequality'],
-      correctIndex: 1,
-    },
+    bonusQuestions: [
+      {
+        question: 'What is a mathematical phrase WITHOUT an equal sign called?',
+        options: ['Equation', 'Expression', 'Evaluate', 'Inequality'],
+        correctIndex: 1,
+      },
+      {
+        question: 'What does it mean to "evaluate" an expression?',
+        options: ['Write it down', 'Find its value', 'Add parentheses', 'Make it equal'],
+        correctIndex: 1,
+      },
+      {
+        question: 'Which grouping symbol looks like this: { }?',
+        options: ['Parentheses', 'Brackets', 'Braces', 'Angles'],
+        correctIndex: 2,
+      },
+    ],
     exhibitDescription: 'An annotated expression with nested grouping symbols, side-by-side expression vs equation boxes, and an order of operations flowchart.',
   },
   {
@@ -171,11 +246,23 @@ export const ROOMS: RoomDefinition[] = [
       { id: 'number-line', label: '?', top: '62%', left: '65%', width: '120px' },
       { id: 'attribute',   label: '?', top: '82%', left: '28%', width: '110px' },
     ],
-    bonusQuestion: {
-      question: 'How many centimeters are in a meter?',
-      options: ['10', '100', '1000', '1'],
-      correctIndex: 1,
-    },
+    bonusQuestions: [
+      {
+        question: 'How many centimeters are in a meter?',
+        options: ['10', '100', '1000', '1'],
+        correctIndex: 1,
+      },
+      {
+        question: 'How many millimeters are in a centimeter?',
+        options: ['100', '1000', '10', '1'],
+        correctIndex: 2,
+      },
+      {
+        question: 'What is the amount of space inside a flat shape called?',
+        options: ['Number line', 'Attribute', 'Cubic unit', 'Area'],
+        correctIndex: 3,
+      },
+    ],
     exhibitDescription: 'A rectangle showing area, a ruler with metric units, a 3D cube, a number line, bar model, and area model diagrams.',
   },
   {
@@ -194,11 +281,23 @@ export const ROOMS: RoomDefinition[] = [
       { id: 'base-of-a-solid-figure',label: '?', top: '60%', left: '45%', width: '175px' },
       { id: 'base-of-an-exponent',   label: '?', top: '60%', left: '78%', width: '165px' },
     ],
-    bonusQuestion: {
-      question: 'What is the name of the flat surface formed by a horizontal and vertical number line?',
-      options: ['Coordinate system', 'Coordinate plane', 'Axis', 'Coordinates'],
-      correctIndex: 1,
-    },
+    bonusQuestions: [
+      {
+        question: 'What is the name of the flat surface formed by a horizontal and vertical number line?',
+        options: ['Coordinate system', 'Coordinate plane', 'Axis', 'Coordinates'],
+        correctIndex: 1,
+      },
+      {
+        question: 'What is the ordered pair (3, 5) an example of?',
+        options: ['Axis', 'Corresponding terms', 'Coordinate plane', 'Coordinates'],
+        correctIndex: 3,
+      },
+      {
+        question: 'What do you call the horizontal or vertical number line on a coordinate plane?',
+        options: ['Coordinates', 'Coordinate plane', 'Corresponding terms', 'Axis'],
+        correctIndex: 3,
+      },
+    ],
     exhibitDescription: 'A full coordinate plane with labeled axes, a plotted point, and inset boxes for corresponding terms, base of a solid figure, and base of an exponent.',
   },
 ]
